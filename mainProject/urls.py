@@ -28,3 +28,4 @@ urlpatterns = [
     path('api/auth/token/verify/',  jwt_views.TokenVerifyView.as_view(), name='token_refresh'),
     # ... end JWT
 ]
+
