@@ -19,6 +19,25 @@ from django.urls import path, include
 
 from rest_framework_simplejwt import views as jwt_views  # JWT
 
+# +++ SWAGGER
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+# ... SWAGGER
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="Backend Motion Group 1",
+      default_version='v1',
+      description="Description of your Django App",
+      terms_of_service="https://www.google.com/policies/terms/",
+      contact=openapi.Contact(email="daniele.scopece@blabla.com"),
+      license=openapi.License(name="BSD License"),
+   ),
+   public=True, # Set to False restrict access to protected endpoints
+   permission_classes=(permissions.AllowAny,), # Permissions for docs access
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,5 +47,9 @@ urlpatterns = [
     path('api/auth/token/verify/',  jwt_views.TokenVerifyView.as_view(), name='token_refresh'),
     # ... end JWT
     path('api/social/comments/', include('comment.urls')),
+
+    # +++ SWAGGER
+    path('backend/api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    # ... SWAGGER
 ]
 
