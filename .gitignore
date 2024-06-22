@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/macos,linux,django,python,pycharm,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,django,python,pycharm,windows
 
+### Daniele: temporarily but needed by the coworkers 2024-06-22
+.env
+
 ### Django ###
 *.log
 *.pot

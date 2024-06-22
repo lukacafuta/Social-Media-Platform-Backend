@@ -3,8 +3,14 @@
 import os
 import sys
 
+# postgres: handle environment variables
+import dotenv
+
 
 def main():
+    """ for environment variables """
+    dotenv.read_dotenv()  # reading from file .env
+
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mainProject.settings')
     try:
