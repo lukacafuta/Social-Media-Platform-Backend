@@ -48,13 +48,13 @@ urlpatterns = [
     # ... end JWT
 
     # +++ Comment
-    path('api/social/comments/', include('comment.urls')),
+    path('backend/api/social/comments/', include('comment.urls')),
     # ... Comment
 
     # +++ Users
-    path('api/social/followers/', include('follower.urls')),
-    path('api/social/friends/', include('friendRequest.urls')),
-    path('api/users/', include('userProfile.urls')),
+    path('backend/api/social/followers/', include('follower.urls')),
+    path('backend/api/social/friends/', include('friendRequest.urls')),
+    path('backend/api/users/', include('userProfile.urls')),
     # ... Users
 
     # +++ SWAGGER
