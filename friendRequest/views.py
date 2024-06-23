@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from friendRequest.models import FriendRequest
-from friendRequest.serializers import FriendRequestSerializer
+from friendRequest.serializers import FriendRequestSerializer, FriendRequestUpdateSerializer
 from userProfile.models import UserProfile
 
 
@@ -36,3 +36,11 @@ class FriendRequestDetailView(APIView):
         friend_request = get_object_or_404(FriendRequest, id=friend_request_id)
         serializer = FriendRequestSerializer(friend_request)
         return Response(serializer.data)
+
+    def patch(self, request, friend_request_id):
+        friend_request = get_object_or_404(FriendRequest, id=friend_request_id)
+        serializer = FriendRequestUpdateSerializer(friend_request, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
