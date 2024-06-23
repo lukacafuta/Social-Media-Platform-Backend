@@ -44,3 +44,9 @@ class FriendRequestDetailView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, friend_request_id):
+        friend_request = get_object_or_404(FriendRequest, id=friend_request_id)
+        friend_request.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
