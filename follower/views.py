@@ -5,13 +5,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from follower.models import Follower
-from follower.serializers import UserProfileSerializer
+from follower.serializers import FollowerUserProfileSerializer
 from userProfile.models import UserProfile
 
 
 # Create your views here.
 class ListFollowersView(GenericAPIView, mixins.ListModelMixin):
-    serializer_class = UserProfileSerializer
+    serializer_class = FollowerUserProfileSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
@@ -24,7 +24,7 @@ class ListFollowersView(GenericAPIView, mixins.ListModelMixin):
 
 
 class ListFollowingView(GenericAPIView, mixins.ListModelMixin):
-    serializer_class = UserProfileSerializer
+    serializer_class = FollowerUserProfileSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
