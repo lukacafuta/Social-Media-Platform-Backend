@@ -9,7 +9,7 @@ CustomUser = get_user_model()
 
 # to visualize correctly in admin page
 class CustomUserAdmin(UserAdmin):
-    # fields shown when creating a new instance
+    # fields shown when creating a new instance
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -17,7 +17,7 @@ class CustomUserAdmin(UserAdmin):
          ),
     )
 
-    # fields when reading / updating an instance
+    # fields when reading / updating an instance (GET/PATCH)
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name')}),
