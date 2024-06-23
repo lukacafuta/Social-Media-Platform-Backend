@@ -1,3 +1,29 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from friendRequest.serializers import FriendRequestSerializer
+from userProfile.models import UserProfile
+
 
 # Create your views here.
+class SendFriendRequestView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, user_id):
+        sender_profile = get_object_or_404(UserProfile, customUser=request.user)
+        receiver_profile = get_object_or_404(UserProfile, customUser__id=user_id)
+
+        data = {
+            'sendRequestTo': sender_profile.id,
+            'receivedBy': receiver_profile.id,
+            'status': 'P'
+        }
+        serializer = FriendRequestSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
