@@ -59,10 +59,22 @@ class AcceptedFriendsListView(APIView):
         accepted_requests_sent = FriendRequest.objects.filter(sendRequestTo=user_profile, status='A')
         accepted_requests_received = FriendRequest.objects.filter(receivedBy=user_profile, status='A')
 
-        friends_profiles = [
-            req.receivedBy if req.sendRequestTo == user_profile else req.sendRequestTo
-            for req in accepted_requests_sent.union(accepted_requests_received)
-        ]
+        friends_profiles = []
+        # combine two query-sets into one
+        all_accepted_requests = accepted_requests_sent.union(accepted_requests_received)
+
+        # iterate over each friend request
+        for req in all_accepted_requests:
+            # check if the current user is the one who sent the request
+            if req.sendRequestTo == user_profile:
+                # the friend is the receiver of thew request
+                friend_profile = req.receivedBy
+            else:
+                # the friend is the sender of the request
+                friend_profile = req.sendRequestTo
+
+            # add the friend profile to the list
+            friends_profiles.append(friend_profile)
 
         serializer = FriendSerializer(friends_profiles, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
