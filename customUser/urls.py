@@ -4,7 +4,7 @@ from .views import ListCreateMeView, ListAllUserView, ListUserByIdView, ListUser
 
 urlpatterns = [
     # path('<str:username>/', ListCreateMeView.as_view()),  # does not work for me
-    # path('', ListAllUserView.as_view()),
+    path('', ListAllUserView.as_view()),
     path('<int:user_id>/', ListUserByIdView.as_view()),
     #path('?search=<str:search_string>', ListUserByQueryView.as_view()),
     path('search=<str:search_string>', ListUserByQueryView.as_view()), # senza ? funziona
