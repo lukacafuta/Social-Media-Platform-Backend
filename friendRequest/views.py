@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from friendRequest.models import FriendRequest
-from friendRequest.serializers import FriendRequestSerializer, FriendRequestUpdateSerializer
+from friendRequest.serializers import FriendRequestSerializer, FriendRequestUpdateSerializer, FriendSerializer
 from userProfile.models import UserProfile
 
 
@@ -50,3 +50,19 @@ class FriendRequestDetailView(APIView):
         friend_request.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+class AcceptedFriendsListView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_profile = request.user.userprofile
+        accepted_requests_sent = FriendRequest.objects.filter(sendRequestTo=user_profile, status='A')
+        accepted_requests_received = FriendRequest.objects.filter(receivedBy=user_profile, status='A')
+
+        friends_profiles = [
+            req.receivedBy if req.sendRequestTo == user_profile else req.sendRequestTo
+            for req in accepted_requests_sent.union(accepted_requests_received)
+        ]
+
+        serializer = FriendSerializer(friends_profiles, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
