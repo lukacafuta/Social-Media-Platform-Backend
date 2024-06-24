@@ -1,5 +1,5 @@
+"""
 from django.db.models import Q
-from django.shortcuts import render
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
@@ -33,3 +33,4 @@ class UserProfileDetailView(RetrieveAPIView):
 
     queryset = UserProfile.objects.all()
     lookup_field = 'id'
+"""

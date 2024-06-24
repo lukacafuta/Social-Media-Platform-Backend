@@ -1,5 +1,5 @@
+"""
 from django.urls import path
-
 from userProfile.views import UserListView, UserProfileDetailView, UserSearchView
 
 urlpatterns = [
@@ -7,3 +7,4 @@ urlpatterns = [
     path('<int:id>/', UserProfileDetailView.as_view()),
     path('search/', UserSearchView.as_view()),
 ]
+"""

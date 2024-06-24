@@ -1,9 +1,7 @@
-from django.shortcuts import render
 from rest_framework import status, mixins
 from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from follower.models import Follower
 from follower.serializers import FollowerUserProfileSerializer
 from userProfile.models import UserProfile
