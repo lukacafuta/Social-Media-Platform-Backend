@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from follower.models import Follower
 from follower.serializers import FollowerUserProfileSerializer
 from userProfile.models import UserProfile
+from django.core.mail import send_mail
 
 
 # Create your views here.
@@ -50,8 +51,18 @@ class ToggleFollowView(GenericAPIView):
             isFollowing=current_user_profile
         )
 
-        if not created:
+        if created:
+            # send email to the followed user
+            send_mail(
+                'New Follower Alert',
+                f'Hi, {user_to_follow.customUser.username} you have a new follower: {current_user_profile.customUser.username}!',
+                'luka.cafuta.dev@gmail.com',
+                [user_to_follow.customUser.email],
+                fail_silently=False,
+            )
+            return Response({'detail': 'Followed successfully and email sent'}, status=status.HTTP_201_CREATED)
+        else:
             follower_record.delete()
             return Response({'detail': 'Unfollowed successfully'}, status=status.HTTP_200_OK)
 
-        return Response({'detail': 'Followed successfully'}, status=status.HTTP_201_CREATED)
+
