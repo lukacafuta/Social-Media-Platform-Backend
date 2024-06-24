@@ -47,7 +47,15 @@ urlpatterns = [
     path('api/auth/token/verify/',  jwt_views.TokenVerifyView.as_view(), name='token_refresh'),
     # ... end JWT
 
-    path('api/social/comments/', include('comment.urls')),
+    # +++ Comment
+    path('backend/api/social/comments/', include('comment.urls')),
+    # ... Comment
+
+    # +++ Users
+    path('backend/api/social/followers/', include('follower.urls')),
+    path('backend/api/social/friends/', include('friendRequest.urls')),
+    path('backend/api/users/', include('userProfile.urls')),
+    # ... Users
 
     # +++ SWAGGER
     path('backend/api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
@@ -57,4 +65,3 @@ urlpatterns = [
     path('backend/api/users/', include('customUser.urls'))
     # ... /me/ from CustomUser
 ]
-
