@@ -1,4 +1,6 @@
+from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -25,6 +27,16 @@ class SendFriendRequestView(APIView):
         serializer = FriendRequestSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
+
+            # send email to the receiver of the friend request
+            send_mail(
+                'Friend Request Received',
+                f'Hi {receiver_profile.customUser.username}, you have received a friend request from {sender_profile.customUser.username}.',
+                'luka.cafuta.dev@gmail.com',
+                [receiver_profile.customUser.email],
+                fail_silently=False,
+            )
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -39,9 +51,27 @@ class FriendRequestDetailView(APIView):
 
     def patch(self, request, friend_request_id):
         friend_request = get_object_or_404(FriendRequest, id=friend_request_id)
+        original_status = friend_request.status
         serializer = FriendRequestUpdateSerializer(friend_request, data=request.data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
+            updated_status = serializer.validated_data.get('status', original_status)
+
+            if updated_status == 'A' and original_status != 'A':
+                sender_profile = friend_request.sendRequestTo
+                receiver_profile = friend_request.receivedBy
+
+                message = f'Hi, {receiver_profile.customUser.username} has accepted your friend request.'
+
+                send_mail(
+                    'Friend Request Accepted',
+                    message,
+                    'luka.cafuta.dev@gmail.com',
+                    [sender_profile.customUser.email],
+                    fail_silently=False,
+                )
+
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
