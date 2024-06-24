@@ -6,5 +6,5 @@ from .models import Comment
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('creator', 'text', 'postCommented', 'dtCreated', 'dtUpdated')
+    list_display = ('id', 'creator', 'text', 'postCommented', 'dtCreated', 'dtUpdated')
     

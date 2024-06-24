@@ -5,7 +5,7 @@ from .models import Follower
 # Register your models here.
 @admin.register(Follower)
 class FollowerAdmin(admin.ModelAdmin):
-    list_display = ('get_is_followed_username', 'get_is_following_username', 'dtCreated', 'dtUpdated')
+    list_display = ('id', 'get_is_followed_username', 'get_is_following_username', 'dtCreated', 'dtUpdated')
 
     def get_is_followed_username(self, obj):
         return obj.isFollowed.username
