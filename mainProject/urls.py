@@ -35,7 +35,7 @@ schema_view = get_schema_view(
       license=openapi.License(name="BSD License"),
    ),
    public=True, # Set to False restrict access to protected endpoints
-   permission_classes=(permissions.AllowAny,),  # Permissions for docs access
+   permission_classes=(permissions.AllowAny,), # Permissions for docs access
 )
 
 
@@ -60,4 +60,8 @@ urlpatterns = [
     # +++ SWAGGER
     path('backend/api/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     # ... SWAGGER
+
+    # +++ /me/ from CustomUser
+    path('backend/api/users/', include('customUser.urls'))
+    # ... /me/ from CustomUser
 ]
