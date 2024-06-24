@@ -10,5 +10,6 @@ urlpatterns = [
     path('search=<str:search_string>', ListUserByQueryView.as_view()), # senza ? funziona
     #path('search/', ListUserByQueryView.as_view(), name="search_string"),
     #path('search/?search=<str:search_string>', ListUserByQueryView.as_view()),
+    path('me/', ListCreateMeView.as_view())
 ]
 

@@ -12,8 +12,38 @@ from django.db.models import Q
 # Create your views here.
 
 
-# class me
+# class me -> use GenericAPIView
+class ListCreateMeView(GenericAPIView):
 
+    # define serializer for special cases
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return CustomUserSerializerPrivate  # private info
+        return CustomUserSerializerPublic  # PATCH -> only public patch according to the specifics
+
+    def get_queryset(self):
+        # select the ones from CustomUsers
+        # get the username
+        return CustomUser.objects.filter(username=self.request.user)
+
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        queryset = self.get_queryset().first()
+        #data = request.data.copy()
+        serializer = self.get_serializer(queryset, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+# RetrieveUpdateAPIView
+
+"""
 #################### TODO: how to handle PATCH and get ?????
 class ListCreateMeView(RetrieveUpdateAPIView):
     # define that the filter must be only the ones for the logged in user
@@ -38,7 +68,7 @@ class ListCreateMeView(RetrieveUpdateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-
+"""
 
 """
 # I need to retrieve only 1 instance, but I use the ListCreateAPIView bc I do not know the id in advance
