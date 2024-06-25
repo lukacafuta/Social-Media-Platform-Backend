@@ -54,7 +54,7 @@ urlpatterns = [
     # +++ Users
     path('backend/api/social/followers/', include('follower.urls')),
     path('backend/api/social/friends/', include('friendRequest.urls')),
-    path('backend/api/users/', include('userProfile.urls')),
+    # path('backend/api/users/', include('userProfile.urls')),
     # ... Users
 
     # +++ SWAGGER
