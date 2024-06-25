@@ -54,7 +54,7 @@ class ToggleFollowView(GenericAPIView):
             send_mail(
                 'New Follower Alert',
                 f'Hi, {user_to_follow.customUser.username} you have a new follower: {current_user_profile.customUser.username}!',
-                'luka.cafuta.dev@gmail.com',
+                'motionbackend347@gmail.com',
                 [user_to_follow.customUser.email],
                 fail_silently=False,
             )

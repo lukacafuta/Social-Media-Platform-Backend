@@ -32,7 +32,7 @@ class SendFriendRequestView(APIView):
             send_mail(
                 'Friend Request Received',
                 f'Hi {receiver_profile.customUser.username}, you have received a friend request from {sender_profile.customUser.username}.',
-                'luka.cafuta.dev@gmail.com',
+                'motionbackend347@gmail.com',
                 [receiver_profile.customUser.email],
                 fail_silently=False,
             )
@@ -67,7 +67,7 @@ class FriendRequestDetailView(APIView):
                 send_mail(
                     'Friend Request Accepted',
                     message,
-                    'luka.cafuta.dev@gmail.com',
+                    'motionbackend347@gmail.com',
                     [sender_profile.customUser.email],
                     fail_silently=False,
                 )
