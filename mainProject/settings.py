@@ -31,6 +31,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = ast.literal_eval(os.environ.get('DJANGO_DEBUG', False))
 DEBUG = False
+SERVER_TYPE = os.environ.get('SERVER_TYPE')
 
 ALLOWED_HOSTS = ['group-1-backend.herokuapp.com', 'localhost', 'group-1-backend-4ade0905c104.herokuapp.com', '127.0.0.1']
 
