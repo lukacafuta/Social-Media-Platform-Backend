@@ -13,6 +13,9 @@ import ast
 import os
 from datetime import timedelta
 from pathlib import Path
+
+import dj_database_url
+
 # TEST COMMENT
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -94,17 +97,22 @@ WSGI_APPLICATION = 'mainProject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME'),
-        'HOST': os.environ.get('DB_HOST'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'PORT': os.environ.get('DB_PORT'),
+if SERVER_TYPE == 'development':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.environ.get('DB_NAME'),
+            'HOST': os.environ.get('DB_HOST'),
+            'USER': os.environ.get('DB_USER'),
+            'PASSWORD': os.environ.get('DB_PASSWORD'),
+            'PORT': os.environ.get('DB_PORT'),
+        }
     }
-}
+
+if SERVER_TYPE == 'production':
+    DATABASES = {
+        'default': dj_database_url.config()
+    }
 
 
 # Password validation
