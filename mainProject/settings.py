@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import ast
 import os
 from datetime import timedelta
 from pathlib import Path
@@ -22,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=bf**6==-&13eu67_6kr62dnwjt%3*3%$=58dgd753l7a64del'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ast.literal_eval(os.environ.get('DJANGO_DEBUG', False))
 
-ALLOWED_HOSTS = ['group-1-backend.herokuapp.com', 'localhost', 'group-1-backend-4ade0905c104.herokuapp.com']
+ALLOWED_HOSTS = ['group-1-backend.herokuapp.com', 'localhost', 'group-1-backend-4ade0905c104.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -96,8 +97,12 @@ WSGI_APPLICATION = 'mainProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DB_NAME'),
+        'HOST': os.environ.get('DB_HOST'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 
